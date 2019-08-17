@@ -1,11 +1,16 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+require('dotenv/config')
+
 const User = require('../../models/User')
 
 module.exports = {
   Query: {
-    allUsers: () => User.find(),
+    allUsers: (_, __, { user }) => {
+      
+      return User.find()
+    },
     getUser: (_, { id }) => User.findById(id)
   },
   Mutation: {
@@ -22,7 +27,7 @@ module.exports = {
       const user = await User.findOne({ email: data.email })
       const isValidPass = await bcrypt.compare(data.password, user.password)
       if (isValidPass) {
-        return jwt.sign({ email: user.email }, 'secret')
+        return jwt.sign({ email: user.email }, process.env.JWT_SECRET)
       }
       return "password no valido"
     }

@@ -7,6 +7,7 @@ const path = require('path')
 
 require('./config/db')
 
+const { getUserByToken } = require('./utils')
 
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './graphql/schemas')))
 const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './graphql/resolvers')))
@@ -15,7 +16,11 @@ const app = express()
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: ({ req: { headers: { authorization } } }) => {
+    const user = getUserByToken(authorization)
+    return { user }
+  }
 })
 
 server.applyMiddleware({ app })
