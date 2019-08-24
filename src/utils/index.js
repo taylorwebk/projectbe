@@ -16,6 +16,14 @@ const getUserByToken = (token) => {
   return null
 }
 
+const errorTypes = {
+  loginError: 'LOGIN ERROR',
+  notAuthError: 'NO AUTH ERROR',
+  notValidEmailError: 'NOT VALID EMAIL ERROR',
+  notValidArguments: 'NOT VALID ARGS'
+}
+
 module.exports = {
-  getUserByToken
+  getUserByToken,
+  errorTypes
 }
