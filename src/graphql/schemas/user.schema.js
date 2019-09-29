@@ -22,6 +22,9 @@ module.exports = `
 
     # Get user by ID
     getUser( id: ID! ) : User
+
+    # Token Validation
+    validateToken: User!
   }
   type Mutation {
     # creates an user

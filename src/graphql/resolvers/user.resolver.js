@@ -15,7 +15,13 @@ module.exports = {
       }
       return User.find()
     },
-    getUser: (_, { id }) => User.findById(id)
+    getUser: (_, { id }) => User.findById(id),
+    validateToken: (_, __, { user }) => {
+      if (!user) {
+        throw new ApolloError(errorTypes.notAuthError, 400, { type: 'error' })
+      }
+      return user
+    }
   },
   Mutation: {
     createUser: async (_, { user }) => {
